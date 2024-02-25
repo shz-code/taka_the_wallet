@@ -43,7 +43,13 @@ const DashboardStack = () => {
         component={Dashboard}
       />
       <Stack.Screen
-        options={{ title: `Modify Funds` }}
+        options={{
+          title: `Modify Funds`,
+          headerStyle: {
+            backgroundColor: "#287EFC",
+          },
+          headerTintColor: "#fff",
+        }}
         name="ModifyFunds"
         component={ModifyFunds}
       />

@@ -1,13 +1,7 @@
 import { useState } from "react";
-import {
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import Icon from "../components/ui/Icon";
+import styles from "../styles/styles";
 
 const ModifyFunds = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -17,24 +11,16 @@ const ModifyFunds = () => {
   const type = ["Deposit", "Option 2", "Option 3"];
 
   return (
-    <View
-      style={{
-        padding: 10,
-        backgroundColor: "aqua",
-        height: "100%",
-        gap: 10,
-      }}
-    >
+    <View style={styles.container}>
       <View style={{ flexDirection: "row", gap: 10 }}>
+        {/* Types */}
         {type.map((item) => (
           <Pressable onPress={() => alert(item)}>
             <Text
               key={item}
               style={{
-                backgroundColor: "red",
-                paddingHorizontal: 10,
-                paddingVertical: 5,
-                borderRadius: 15,
+                ...styles.fundTypeButton,
+                ...styles.fundTypeButtonSelected,
               }}
             >
               {item}
@@ -43,57 +29,74 @@ const ModifyFunds = () => {
         ))}
       </View>
       <View style={{ gap: 10 }}>
-        <TextInput
-          style={{
-            backgroundColor: "#fff",
-            padding: 10,
-            color: "#000",
-            borderRadius: 10,
-          }}
-          placeholder="Enter Fund Title"
-        />
-        <TextInput
-          style={{
-            backgroundColor: "#fff",
-            padding: 10,
-            color: "#000",
-            borderRadius: 10,
-          }}
-          placeholder="Enter Fund Description"
-        />
-        <TextInput
-          style={{
-            backgroundColor: "#fff",
-            padding: 10,
-            color: "#000",
-            borderRadius: 10,
-          }}
-          placeholder="Enter Amount"
-        />
+        <TextInput style={styles.input} placeholder="Enter Fund Title" />
+        <TextInput style={styles.input} placeholder="Enter Fund Description" />
+        <TextInput style={styles.input} placeholder="Enter Amount" />
       </View>
       <View style={{ alignSelf: "center", marginTop: 10 }}>
         <Text>{new Date().toLocaleString()}</Text>
       </View>
       <View>
-        <Text>Select Account</Text>
-        <ScrollView>
-          <View style={{ flexDirection: "row", gap: 10, marginTop: 10 }}>
+        <Text style={styles.subHeadingText}>Select Account</Text>
+        <ScrollView horizontal={true}>
+          <View style={{ flexDirection: "row", gap: 10, paddingVertical: 20 }}>
+            {/* Cart item */}
+            <View style={{ ...styles.accountCard }}>
+              <View
+                style={{ flexDirection: "row", gap: 10, alignItems: "center" }}
+              >
+                <View style={styles.iconContainer}>
+                  <View
+                    style={{ ...styles.iconBox, backgroundColor: "#287EFC" }}
+                  >
+                    <Icon name="card-outline" color="#fff" />
+                  </View>
+                </View>
+              </View>
+              <View style={{ alignItems: "flex-end" }}>
+                <Text>Name Is</Text>
+                <Text>300 T</Text>
+              </View>
+            </View>
             {/* Cart item */}
             <View
-              style={{
-                flexDirection: "row",
-                width: 150,
-                justifyContent: "space-between",
-                borderWidth: 1,
-                borderColor: "#000",
-                padding: 5,
-              }}
+              style={{ ...styles.accountCard, ...styles.accountCardSelected }}
             >
-              <View style={{ flexDirection: "row", gap: 10 }}>
-                <Icon name="menu" />
-                <Text>1</Text>
+              <View
+                style={{ flexDirection: "row", gap: 10, alignItems: "center" }}
+              >
+                <View style={styles.iconContainer}>
+                  <View
+                    style={{ ...styles.iconBox, backgroundColor: "#287EFC" }}
+                  >
+                    <Icon name="card-outline" color="#fff" />
+                  </View>
+                </View>
               </View>
-              <Text>2</Text>
+              <View style={{ alignItems: "flex-end" }}>
+                <Text>Name Is</Text>
+                <Text>300 T</Text>
+              </View>
+            </View>
+            {/* Cart item */}
+            <View
+              style={{ ...styles.accountCard, ...styles.accountCardSelected }}
+            >
+              <View
+                style={{ flexDirection: "row", gap: 10, alignItems: "center" }}
+              >
+                <View style={styles.iconContainer}>
+                  <View
+                    style={{ ...styles.iconBox, backgroundColor: "#287EFC" }}
+                  >
+                    <Icon name="card-outline" color="#fff" />
+                  </View>
+                </View>
+              </View>
+              <View style={{ alignItems: "flex-end" }}>
+                <Text>Name Is</Text>
+                <Text>300 T</Text>
+              </View>
             </View>
           </View>
         </ScrollView>
@@ -106,17 +109,10 @@ const ModifyFunds = () => {
           width: "100%",
         }}
       >
-        <Pressable
-          style={{
-            backgroundColor: "red",
-            width: "100%",
-            alignItems: "center",
-            padding: 10,
-            borderRadius: 10,
-          }}
-          onPress={() => alert("submit")}
-        >
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}>Submit</Text>
+        <Pressable style={styles.button} onPress={() => alert("submit")}>
+          <Text style={{ fontSize: 20, fontWeight: "bold", color: "#fff" }}>
+            Submit
+          </Text>
         </Pressable>
       </View>
     </View>
@@ -124,37 +120,3 @@ const ModifyFunds = () => {
 };
 
 export default ModifyFunds;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  selectButton: {
-    padding: 10,
-    backgroundColor: "#eaeaea",
-  },
-  selectButtonText: {
-    fontSize: 16,
-    color: "#333",
-  },
-  modalBackground: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 5,
-  },
-  optionButton: {
-    paddingVertical: 10,
-  },
-  optionText: {
-    fontSize: 16,
-    color: "#333",
-  },
-});

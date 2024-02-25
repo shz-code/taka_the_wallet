@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
-
+// #F4FAFF
+// #287EFC
+// #B1BDCF
 const styles = StyleSheet.create({
   brandTextContainer: {
     position: "absolute",
@@ -72,6 +74,57 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     flexDirection: "row",
     gap: 20,
+  },
+
+  container: {
+    padding: 10,
+    backgroundColor: "#fff",
+    height: "100%",
+    gap: 10,
+  },
+  fundTypeButton: {
+    backgroundColor: "#F4FAFF",
+    borderWidth: 2,
+    borderColor: "#287EFC",
+    paddingRight: 10,
+    paddingLeft: 15,
+    paddingTop: 7,
+    borderRadius: 15,
+    height: 35,
+  },
+  fundTypeButtonSelected: {
+    backgroundColor: "#287EFC",
+    color: "#fff",
+  },
+  input: {
+    backgroundColor: "#F4FAFF",
+    borderWidth: 2,
+    borderColor: "#287EFC",
+    padding: 10,
+    color: "#000",
+    borderRadius: 10,
+  },
+  accountCard: {
+    flexDirection: "row",
+    width: 160,
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderWidth: 2,
+    backgroundColor: "#fff",
+    borderColor: "#B1BDCF",
+    borderRadius: 5,
+    padding: 5,
+  },
+  accountCardSelected: {
+    borderColor: "#287EFC",
+    backgroundColor: "#F4FAFF",
+  },
+  button: {
+    backgroundColor: "#287EFC",
+    width: "100%",
+    alignItems: "center",
+    padding: 10,
+    borderRadius: 10,
   },
 });
 
