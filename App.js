@@ -1,3 +1,5 @@
+import "react-native-gesture-handler";
+
 import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import AppNavigator from "./app/AppNavigator";

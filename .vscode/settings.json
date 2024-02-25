@@ -12,6 +12,7 @@
     "Formik",
     "Ionicons",
     "Ninish",
+    "Pressable",
     "reduxjs",
     "tailwindcss"
   ]
