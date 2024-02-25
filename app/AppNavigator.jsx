@@ -2,13 +2,17 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import CustomDrawerContent from "./components/Drawer/CustomDrawerContent";
 import Icon from "./components/ui/Icon";
 import AccountDetails from "./screens/AccountDetails";
 import AllAccounts from "./screens/AllAccounts";
 import Dashboard from "./screens/Dashboard";
+import Login from "./screens/Login";
 import ModifyFunds from "./screens/ModifyFunds";
 import NewAccount from "./screens/NewAccount";
+import Register from "./screens/Register";
 
 const Drawer = createDrawerNavigator();
 const Tabs = createBottomTabNavigator();
@@ -102,8 +106,28 @@ const ManageAccountsBottomTabs = () => {
   );
 };
 
-const AppNavigator = () => {
+const AuthBottomTabs = () => {
   return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Register" component={Register} />
+    </Stack.Navigator>
+  );
+};
+
+const AppNavigator = () => {
+  const [authChecked, setAuthChecked] = useState(false);
+  const dispatch = useDispatch();
+  const { userId } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (userId) {
+      console.log("yes");
+    }
+    setAuthChecked(true);
+  }, [userId]);
+
+  return authChecked && userId ? (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={{
@@ -139,6 +163,8 @@ const AppNavigator = () => {
         component={ManageAccountsBottomTabs}
       />
     </Drawer.Navigator>
+  ) : (
+    <AuthBottomTabs />
   );
 };
 
