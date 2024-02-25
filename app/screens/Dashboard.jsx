@@ -9,7 +9,7 @@ const Dashboard = ({ navigation }) => {
       <View style={{ position: "relative" }}>
         <Image
           source={{
-            uri: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=1945&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            uri: "https://images.unsplash.com/photo-1579546928686-286c9fbde1ec?q=80&w=2139&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
           }}
           style={styles.image}
         />
@@ -44,7 +44,7 @@ const Dashboard = ({ navigation }) => {
               }
             >
               <View style={styles.iconBox}>
-                <Icon name="menu" />
+                <Icon name="card-outline" />
               </View>
               <Text style={{ color: "#fff" }}>Add Money</Text>
             </Pressable>
@@ -55,7 +55,7 @@ const Dashboard = ({ navigation }) => {
               }
             >
               <View style={styles.iconBox}>
-                <Icon name="menu" />
+                <Icon name="cash-outline" />
               </View>
               <Text style={{ color: "#fff" }}>Withdraw Money</Text>
             </Pressable>
@@ -74,7 +74,7 @@ const Dashboard = ({ navigation }) => {
               onPress={() => navigation.navigate("NewAccount")}
             >
               <View style={styles.iconBox}>
-                <Icon name="menu" />
+                <Icon name="add" />
               </View>
               <Text>Add</Text>
             </Pressable>
@@ -87,9 +87,9 @@ const Dashboard = ({ navigation }) => {
                   }
                 >
                   <View style={styles.iconBox}>
-                    <Icon name="menu" />
+                    <Icon name="wallet-outline" />
                   </View>
-                  <Text>Add</Text>
+                  <Text>BKash</Text>
                 </Pressable>
               </View>
             </ScrollView>
@@ -106,7 +106,7 @@ const Dashboard = ({ navigation }) => {
                 flexDirection: "row",
                 justifyContent: "space-between",
                 alignItems: "center",
-                borderBottomColor: "#000",
+                borderBottomColor: "#B1BDCF",
                 borderBottomWidth: 1,
                 paddingTop: 10,
                 paddingBottom: 10,
@@ -116,17 +116,17 @@ const Dashboard = ({ navigation }) => {
                 style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
               >
                 <View style={styles.iconBox}>
-                  <Icon name="menu" />
+                  <Icon name="wallet-outline" />
                 </View>
                 <View>
-                  <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+                  <Text style={{ fontWeight: "500", fontSize: 18 }}>
                     Netflix
                   </Text>
                   <Text style={{ marginTop: 5 }}>20 hours ago</Text>
                 </View>
               </View>
               <View style={{ alignItems: "flex-end" }}>
-                <Text style={{ fontWeight: "bold", fontSize: 18 }}>-300 ৳</Text>
+                <Text style={{ fontWeight: "500", fontSize: 18 }}>-300 ৳</Text>
                 <Text style={{ marginTop: 5 }}>Testing</Text>
               </View>
             </SafeAreaView>

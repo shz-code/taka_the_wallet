@@ -1,7 +1,14 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Pressable, StyleSheet } from "react-native";
 
-export default function Icon({ name, color, action, size, center, clickAble }) {
+export default function Icon({
+  name,
+  color = "#287EFC",
+  action,
+  size,
+  center,
+  clickAble,
+}) {
   const styles = StyleSheet.create({
     container: {
       paddingLeft: !center && 16,

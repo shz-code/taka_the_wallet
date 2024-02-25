@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   image: { width: "100%", height: 300 },
   dashboardBody: {
     padding: 10,
-    backgroundColor: "aqua",
+    backgroundColor: "#fff",
     height: "100%",
   },
   dashboardMenuIcon: {
@@ -60,7 +60,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 5,
   },
-  iconBox: { padding: 10, backgroundColor: "red", borderRadius: 50 },
+  iconBox: {
+    padding: 10,
+    backgroundColor: "#F4FAFF",
+    borderRadius: 50,
+  },
 
   // Dashboard Add Accounts
   accountsIconContainer: {
