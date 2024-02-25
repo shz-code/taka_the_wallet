@@ -71,7 +71,9 @@ const Dashboard = ({ navigation }) => {
             {/* New Account */}
             <Pressable
               style={styles.iconContainer}
-              onPress={() => navigation.navigate("NewAccount")}
+              onPress={() =>
+                navigation.navigate("ManageAccounts", { screen: "NewAccount" })
+              }
             >
               <View style={styles.iconBox}>
                 <Icon name="add" />
@@ -83,7 +85,10 @@ const Dashboard = ({ navigation }) => {
                 <Pressable
                   style={styles.iconContainer}
                   onPress={() =>
-                    navigation.navigate("AccountDetails", { item: "123" })
+                    navigation.navigate("AllAccountsStack", {
+                      screen: "AccountDetails",
+                      item: "123",
+                    })
                   }
                 >
                   <View style={styles.iconBox}>
@@ -101,22 +106,12 @@ const Dashboard = ({ navigation }) => {
           {/* Transactions Container */}
           <View>
             {/* Transaction Item */}
-            <SafeAreaView
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                borderBottomColor: "#B1BDCF",
-                borderBottomWidth: 1,
-                paddingTop: 10,
-                paddingBottom: 10,
-              }}
-            >
+            <View style={styles.transactionItem}>
               <View
                 style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
               >
                 <View style={styles.iconBox}>
-                  <Icon name="wallet-outline" />
+                  <Icon name="cart-outline" />
                 </View>
                 <View>
                   <Text style={{ fontWeight: "500", fontSize: 18 }}>
@@ -129,7 +124,7 @@ const Dashboard = ({ navigation }) => {
                 <Text style={{ fontWeight: "500", fontSize: 18 }}>-300 ৳</Text>
                 <Text style={{ marginTop: 5 }}>Testing</Text>
               </View>
-            </SafeAreaView>
+            </View>
           </View>
         </View>
       </ScrollView>

@@ -67,6 +67,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#F4FAFF",
     borderRadius: 50,
   },
+  // Transaction
+  transactionItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottomColor: "#B1BDCF",
+    borderBottomWidth: 1,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
 
   // Dashboard Add Accounts
   accountsIconContainer: {
