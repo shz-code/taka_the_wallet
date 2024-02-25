@@ -68,32 +68,29 @@ const Dashboard = ({ navigation }) => {
         <View>
           <Text style={styles.subHeadingText}>Your Accounts</Text>
           <View style={styles.accountsIconContainer}>
-            <View style={styles.iconContainer}>
+            {/* New Account */}
+            <Pressable
+              style={styles.iconContainer}
+              onPress={() => navigation.navigate("NewAccount")}
+            >
               <View style={styles.iconBox}>
                 <Icon name="menu" />
               </View>
               <Text>Add</Text>
-            </View>
+            </Pressable>
             <ScrollView horizontal={false}>
               <View style={{ flexDirection: "row", gap: 10 }}>
-                <View style={styles.iconContainer}>
+                <Pressable
+                  style={styles.iconContainer}
+                  onPress={() =>
+                    navigation.navigate("AccountDetails", { item: "123" })
+                  }
+                >
                   <View style={styles.iconBox}>
                     <Icon name="menu" />
                   </View>
                   <Text>Add</Text>
-                </View>
-                <View style={styles.iconContainer}>
-                  <View style={styles.iconBox}>
-                    <Icon name="menu" />
-                  </View>
-                  <Text>Add</Text>
-                </View>
-                <View style={styles.iconContainer}>
-                  <View style={styles.iconBox}>
-                    <Icon name="menu" />
-                  </View>
-                  <Text>Add</Text>
-                </View>
+                </Pressable>
               </View>
             </ScrollView>
           </View>

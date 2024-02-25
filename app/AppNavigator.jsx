@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StyleSheet, View } from "react-native";
 import CustomDrawerContent from "./components/Drawer/CustomDrawerContent";
 import Icon from "./components/ui/Icon";
+import AccountDetails from "./screens/AccountDetails";
 import AllAccounts from "./screens/AllAccounts";
 import Dashboard from "./screens/Dashboard";
 import ModifyFunds from "./screens/ModifyFunds";
@@ -13,6 +14,24 @@ import NewAccount from "./screens/NewAccount";
 const Drawer = createDrawerNavigator();
 const Tabs = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
+const AllAccountsStack = () => {
+  const navigation = useNavigation();
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Home"
+        component={AllAccounts}
+      />
+      <Stack.Screen
+        options={({ route }) => ({ title: `Details` })}
+        name="AccountDetails"
+        component={AccountDetails}
+      />
+    </Stack.Navigator>
+  );
+};
 
 const DashboardStack = () => {
   const navigation = useNavigation();
@@ -42,6 +61,7 @@ const ManageAccountsBottomTabs = () => {
   return (
     <Tabs.Navigator
       screenOptions={{
+        headerShown: false,
         headerTitle: "Accounts",
         tabBarActiveTintColor: "#F53B58",
         headerTintColor: "#000",
@@ -65,7 +85,7 @@ const ManageAccountsBottomTabs = () => {
     >
       <Tabs.Screen
         options={{
-          title: "Account",
+          title: "Accounts",
           tabBarIcon: ({ focused }) => (
             <Icon
               name={focused ? "home" : "home-outline"}
@@ -75,13 +95,23 @@ const ManageAccountsBottomTabs = () => {
             />
           ),
         }}
-        name="AllAccounts"
-        component={AllAccounts}
+        name="AllAccountsStack"
+        component={AllAccountsStack}
       />
       <Tabs.Screen
+        options={{
+          title: "New Account",
+          tabBarIcon: ({ focused }) => (
+            <Icon
+              name={focused ? "home" : "home-outline"}
+              size={20}
+              center
+              color={focused ? "#F53B58" : "gray"}
+            />
+          ),
+        }}
         name="NewAccount"
         component={NewAccount}
-        options={{ title: "Manage" }}
       />
     </Tabs.Navigator>
   );
