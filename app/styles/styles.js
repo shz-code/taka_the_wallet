@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     height: "100%",
     gap: 10,
+    position: "relative",
   },
   fundTypeButton: {
     backgroundColor: "#F4FAFF",
@@ -104,6 +105,17 @@ const styles = StyleSheet.create({
     color: "#000",
     borderRadius: 10,
   },
+  accountCardMain: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "#287EFC",
+    backgroundColor: "#F4FAFF",
+    borderRadius: 5,
+    padding: 10,
+  },
   accountCard: {
     flexDirection: "row",
     width: 160,
@@ -125,6 +137,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     borderRadius: 10,
+  },
+
+  // Utility
+  customHeader: {
+    flexDirection: "row",
+    paddingTop: 52,
+    paddingBottom: 12,
+    alignItems: "center",
+    backgroundColor: "#287EFC",
+  },
+  customHeaderTitle: {
+    fontWeight: "bold",
+    fontSize: 20,
+    marginLeft: 26,
+    color: "#fff",
   },
 });
 

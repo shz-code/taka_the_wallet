@@ -1,67 +1,45 @@
 import { Pressable, Text, TextInput, View } from "react-native";
 import Icon from "../components/ui/Icon";
+import styles from "../styles/styles";
 
 const NewAccount = ({ navigation }) => {
   return (
     <>
-      <View
-        style={{
-          flexDirection: "row",
-          paddingTop: 52,
-          paddingBottom: 12,
-          alignItems: "center",
-          backgroundColor: "#fff",
-        }}
-      >
+      <View style={styles.customHeader}>
         <Icon
           name="menu-sharp"
-          color="#000"
+          color="#fff"
           action={() => navigation.toggleDrawer()}
           clickAble
         />
-        <Text style={{ fontWeight: "bold", fontSize: 20, marginLeft: 26 }}>
+        <Text
+          style={{
+            fontWeight: "bold",
+            fontSize: 20,
+            marginLeft: 26,
+            color: "#fff",
+          }}
+        >
           Accounts
         </Text>
       </View>
-      <View
-        style={{
-          padding: 10,
-          backgroundColor: "aqua",
-          height: "100%",
-          gap: 10,
-        }}
-      >
-        <Text>Create New Account</Text>
+      <View style={styles.container}>
+        <Text style={styles.subHeadingText}>Create New Account</Text>
         <View style={{ gap: 10 }}>
-          <TextInput
-            style={{
-              backgroundColor: "#fff",
-              padding: 10,
-              color: "#000",
-              borderRadius: 10,
-            }}
-            placeholder="Enter Account Name"
-          />
+          <TextInput style={styles.input} placeholder="Enter Account Name" />
         </View>
         <View
           style={{
             position: "absolute",
-            bottom: 10,
+            bottom: 100,
             left: 10,
             width: "100%",
           }}
         >
-          <Pressable
-            style={{
-              backgroundColor: "red",
-              width: "100%",
-              alignItems: "center",
-              padding: 10,
-              borderRadius: 10,
-            }}
-            onPress={() => alert("submit")}
-          >
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}>Submit</Text>
+          <Pressable style={styles.button} onPress={() => alert("submit")}>
+            <Text style={{ fontSize: 20, fontWeight: "bold", color: "#fff" }}>
+              Submit
+            </Text>
           </Pressable>
         </View>
       </View>

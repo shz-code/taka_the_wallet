@@ -2,7 +2,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { StyleSheet, View } from "react-native";
 import CustomDrawerContent from "./components/Drawer/CustomDrawerContent";
 import Icon from "./components/ui/Icon";
 import AccountDetails from "./screens/AccountDetails";
@@ -25,7 +24,13 @@ const AllAccountsStack = () => {
         component={AllAccounts}
       />
       <Stack.Screen
-        options={({ route }) => ({ title: `Details` })}
+        options={({ route }) => ({
+          title: `Details`,
+          headerStyle: {
+            backgroundColor: "#287EFC",
+          },
+          headerTintColor: "#fff",
+        })}
         name="AccountDetails"
         component={AccountDetails}
       />
@@ -59,45 +64,19 @@ const DashboardStack = () => {
 
 const ManageAccountsBottomTabs = () => {
   const navigation = useNavigation();
-  const style = StyleSheet.create({
-    pr: {
-      paddingRight: 10,
-    },
-  });
   return (
     <Tabs.Navigator
-      screenOptions={{
-        headerShown: false,
-        headerTitle: "Accounts",
-        tabBarActiveTintColor: "#F53B58",
-        headerTintColor: "#000",
-        headerTitleStyle: {
-          fontWeight: "bold",
-        },
-        headerStyle: {
-          backgroundColor: "#fff",
-        },
-        headerLeft: () => (
-          <View style={style.pr}>
-            <Icon
-              name="menu-sharp"
-              color="#000"
-              action={() => navigation.toggleDrawer()}
-              clickAble
-            />
-          </View>
-        ),
-      }}
+      screenOptions={{ headerShown: false, tabBarActiveTintColor: "#287EFC" }}
     >
       <Tabs.Screen
         options={{
           title: "Accounts",
           tabBarIcon: ({ focused }) => (
             <Icon
-              name={focused ? "home" : "home-outline"}
+              name={focused ? "albums" : "albums-outline"}
               size={20}
               center
-              color={focused ? "#F53B58" : "gray"}
+              color={focused ? "#287EFC" : "gray"}
             />
           ),
         }}
@@ -109,10 +88,10 @@ const ManageAccountsBottomTabs = () => {
           title: "New Account",
           tabBarIcon: ({ focused }) => (
             <Icon
-              name={focused ? "home" : "home-outline"}
+              name={focused ? "add-circle" : "add-circle-outline"}
               size={20}
               center
-              color={focused ? "#F53B58" : "gray"}
+              color={focused ? "#287EFC" : "gray"}
             />
           ),
         }}
