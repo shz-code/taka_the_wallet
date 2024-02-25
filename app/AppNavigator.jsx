@@ -129,15 +129,15 @@ const AppNavigator = () => {
       drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={{
         headerShown: false,
-        drawerActiveTintColor: "#F53B58",
+        drawerActiveTintColor: "#287EFC",
       }}
     >
       <Drawer.Screen
         options={{
           drawerIcon: ({ focused }) => (
             <Icon
-              name={focused ? "home" : "home-outline"}
-              color={focused ? "#F53B58" : "gray"}
+              name={focused ? "cash" : "cash-outline"}
+              color={focused ? "#287EFC" : "gray"}
               size={20}
             />
           ),
@@ -150,8 +150,8 @@ const AppNavigator = () => {
           title: "Manage",
           drawerIcon: ({ focused }) => (
             <Icon
-              name={focused ? "home" : "home-outline"}
-              color={focused ? "#F53B58" : "gray"}
+              name={focused ? "wallet" : "wallet-outline"}
+              color={focused ? "#287EFC" : "gray"}
               size={20}
             />
           ),
