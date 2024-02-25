@@ -1,11 +1,9 @@
-import { useNavigation } from "@react-navigation/native";
 import { Image, Pressable, SafeAreaView, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Icon from "../components/ui/Icon";
 import styles from "../styles/styles";
 
-const Dashboard = ({ navigate }) => {
-  const navigation = useNavigation();
+const Dashboard = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View style={{ position: "relative" }}>
@@ -39,18 +37,28 @@ const Dashboard = ({ navigate }) => {
           <Text style={{ color: "#fff", fontSize: 15 }}>Total Balance</Text>
           <Text style={styles.headingText}>1500.00 ৳</Text>
           <View style={styles.heroActions}>
-            <Pressable style={styles.iconContainer} onPress={() => alert("ok")}>
+            <Pressable
+              style={styles.iconContainer}
+              onPress={() =>
+                navigation.navigate("ModifyFunds", { action: "Add" })
+              }
+            >
               <View style={styles.iconBox}>
                 <Icon name="menu" />
               </View>
               <Text style={{ color: "#fff" }}>Add Money</Text>
             </Pressable>
-            <View style={styles.iconContainer}>
+            <Pressable
+              style={styles.iconContainer}
+              onPress={() =>
+                navigation.navigate("ModifyFunds", { action: "Withdraw" })
+              }
+            >
               <View style={styles.iconBox}>
                 <Icon name="menu" />
               </View>
-              <Text style={{ color: "#fff" }}>Add Money</Text>
-            </View>
+              <Text style={{ color: "#fff" }}>Withdraw Money</Text>
+            </Pressable>
           </View>
         </View>
       </View>

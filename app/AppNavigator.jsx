@@ -7,6 +7,7 @@ import CustomDrawerContent from "./components/Drawer/CustomDrawerContent";
 import Icon from "./components/ui/Icon";
 import AllAccounts from "./screens/AllAccounts";
 import Dashboard from "./screens/Dashboard";
+import ModifyFunds from "./screens/ModifyFunds";
 import NewAccount from "./screens/NewAccount";
 
 const Drawer = createDrawerNavigator();
@@ -15,31 +16,18 @@ const Stack = createNativeStackNavigator();
 
 const DashboardStack = () => {
   const navigation = useNavigation();
-  const style = StyleSheet.create({
-    pr: {
-      paddingRight: 25,
-    },
-  });
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: {
-          paddingRight: 10,
-        },
-        headerLeft: () => (
-          <View style={style.pr}>
-            <Icon
-              name="menu-sharp"
-              color="#000"
-              action={() => navigation.toggleDrawer()}
-              clickAble
-              center
-            />
-          </View>
-        ),
-      }}
-    >
-      <Stack.Screen name="Home" component={Dashboard} />
+    <Stack.Navigator>
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Home"
+        component={Dashboard}
+      />
+      <Stack.Screen
+        options={({ route }) => ({ title: `${route.params.action} Funds` })}
+        name="ModifyFunds"
+        component={ModifyFunds}
+      />
     </Stack.Navigator>
   );
 };
@@ -119,7 +107,7 @@ const AppNavigator = () => {
           ),
         }}
         name="Dashboard"
-        component={Dashboard}
+        component={DashboardStack}
       />
       <Drawer.Screen
         options={{
