@@ -24,7 +24,7 @@ const DashboardStack = () => {
         component={Dashboard}
       />
       <Stack.Screen
-        options={({ route }) => ({ title: `${route.params.action} Funds` })}
+        options={{ title: `Modify Funds` }}
         name="ModifyFunds"
         component={ModifyFunds}
       />
