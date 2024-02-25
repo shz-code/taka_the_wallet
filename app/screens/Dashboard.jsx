@@ -1,11 +1,11 @@
-import { Image, Pressable, SafeAreaView, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Icon from "../components/ui/Icon";
 import styles from "../styles/styles";
 
 const Dashboard = ({ navigation }) => {
   return (
-    <SafeAreaView>
+    <View>
       <View style={{ position: "relative" }}>
         <Image
           source={{
@@ -63,7 +63,7 @@ const Dashboard = ({ navigation }) => {
         </View>
       </View>
       {/* Body */}
-      <ScrollView style={styles.dashboardBody}>
+      <ScrollView style={styles.container}>
         {/* All Accounts */}
         <View>
           <Text style={styles.subHeadingText}>Your Accounts</Text>
@@ -80,6 +80,7 @@ const Dashboard = ({ navigation }) => {
               </View>
               <Text>Add</Text>
             </Pressable>
+            {/* Accounts */}
             <ScrollView horizontal={false}>
               <View style={{ flexDirection: "row", gap: 10 }}>
                 <Pressable
@@ -128,7 +129,33 @@ const Dashboard = ({ navigation }) => {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+      {/* Action Button */}
+      <View
+        style={{
+          position: "absolute",
+          top: "65%",
+          right: 10,
+          zIndex: 1,
+          height: "100%",
+        }}
+      >
+        <Pressable
+          style={styles.iconContainer}
+          onPress={() => navigation.navigate("ModifyFunds", { action: "Add" })}
+        >
+          <View
+            style={{
+              ...styles.iconBox,
+              backgroundColor: "#287EFC",
+              borderRadius: 15,
+              padding: 20,
+            }}
+          >
+            <Icon name="add" color="#fff" size={30} />
+          </View>
+        </Pressable>
+      </View>
+    </View>
   );
 };
 

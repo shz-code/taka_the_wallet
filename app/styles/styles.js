@@ -46,11 +46,6 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   image: { width: "100%", height: 300 },
-  dashboardBody: {
-    padding: 10,
-    backgroundColor: "#fff",
-    height: "100%",
-  },
   dashboardMenuIcon: {
     position: "absolute",
     top: 50,
