@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
     padding: 10,
     color: "#000",
     borderRadius: 10,
+    width: "100%",
   },
   accountCardMain: {
     flexDirection: "row",
@@ -157,6 +158,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 26,
     color: "#fff",
+  },
+
+  // Login
+  loginContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
   },
 });
 
