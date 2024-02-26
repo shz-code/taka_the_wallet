@@ -11,9 +11,11 @@ const Register = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authFailedMsg, setAuthFailedMsg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async () => {
     // Perform login logic here
+    setIsLoading(true);
     try {
       const res = await signUp(userEmail, password);
       const { email, localId, expiresIn } = res.data;
@@ -28,6 +30,7 @@ const Register = ({ navigation }) => {
     } catch (err) {
       setAuthFailedMsg(err.response.data.error.message);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -68,11 +71,25 @@ const Register = ({ navigation }) => {
         />
       </View>
 
-      <Pressable style={styles.button} onPress={handleLogin}>
-        <Text style={{ fontSize: 20, fontWeight: "bold", color: "#fff" }}>
-          Register
-        </Text>
-      </Pressable>
+      {isLoading ? (
+        <View
+          style={{
+            ...styles.button,
+            backgroundColor: "#B1BDCF",
+          }}
+        >
+          <Text style={{ fontSize: 20, fontWeight: "bold", color: "#000" }}>
+            Registering...
+          </Text>
+        </View>
+      ) : (
+        <Pressable style={styles.button} onPress={handleLogin}>
+          <Text style={{ fontSize: 20, fontWeight: "bold", color: "#fff" }}>
+            Register
+          </Text>
+        </Pressable>
+      )}
+
       <Pressable
         style={{ alignItems: "center", marginTop: 10 }}
         onPress={() => navigation.navigate("Login")}
