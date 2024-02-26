@@ -1,8 +1,9 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  email: null,
-  userId: null,
+  email: undefined,
+  userId: undefined,
 };
 
 const authSlice = createSlice({
@@ -15,22 +16,32 @@ const authSlice = createSlice({
     },
     setLocalStorage: (state, action) => {
       // Set LocalStorage
-      localStorage.setItem(
-        "auth",
-        JSON.stringify({
-          userId: action.payload.localId,
-          email: action.payload.email,
-          expiresIn: new Date(
-            new Date().getTime() + action.payload.expiresIn * 1000
-          ),
-        })
-      );
+      const setStorage = async () => {
+        try {
+          await AsyncStorage.setItem(
+            "auth",
+            JSON.stringify({
+              userId: action.payload.localId,
+              email: action.payload.email,
+              expiresIn: new Date(
+                new Date().getTime() + action.payload.expiresIn * 1000
+              ),
+            })
+          );
+        } catch (error) {
+          console.log(err);
+        }
+      };
+      setStorage();
     },
     userLoggedOut: (state) => {
       state.userId = undefined;
       state.email = undefined;
       // Remove local storage
-      localStorage.removeItem("auth");
+      const clr = async () => {
+        await AsyncStorage.removeItem("auth");
+      };
+      clr();
     },
   },
 });

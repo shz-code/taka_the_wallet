@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useNavigation } from "@react-navigation/native";
@@ -6,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CustomDrawerContent from "./components/Drawer/CustomDrawerContent";
 import Icon from "./components/ui/Icon";
+import { userLoggedIn } from "./features/auth/authSlice";
 import AccountDetails from "./screens/AccountDetails";
 import AllAccounts from "./screens/AllAccounts";
 import Dashboard from "./screens/Dashboard";
@@ -119,10 +121,24 @@ const AppNavigator = () => {
   const [authChecked, setAuthChecked] = useState(false);
   const dispatch = useDispatch();
   const { userId } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (userId) {
-      console.log("yes");
+    const checkStorage = async () => {
+      try {
+        let storage = await AsyncStorage.getItem("auth");
+        if (storage) {
+          storage = JSON.parse(storage);
+          dispatch(
+            userLoggedIn({ email: storage.email, localId: storage.userId })
+          );
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    if (!userId) {
+      checkStorage();
     }
     setAuthChecked(true);
   }, [userId]);

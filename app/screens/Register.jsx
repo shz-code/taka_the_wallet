@@ -1,16 +1,33 @@
 import { useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
+import { useDispatch } from "react-redux";
 import Icon from "../components/ui/Icon";
+import { setLocalStorage, userLoggedIn } from "../features/auth/authSlice";
+import { signUp } from "../services/auth";
 import styles from "../styles/styles";
 
 const Register = ({ navigation }) => {
-  const [email, setEmail] = useState("");
+  const dispatch = useDispatch();
+  const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [authFailedMsg, setAuthFailedMsg] = useState("");
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // Perform login logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
+    try {
+      const res = await signUp(userEmail, password);
+      const { email, localId, expiresIn } = res.data;
+      dispatch(userLoggedIn({ email: email, localId: localId }));
+      dispatch(
+        setLocalStorage({
+          email: email,
+          localId: localId,
+          expiresIn: expiresIn,
+        })
+      );
+    } catch (err) {
+      setAuthFailedMsg(err.response.data.error.message);
+    }
   };
 
   return (
@@ -20,12 +37,26 @@ const Register = ({ navigation }) => {
         Taka - The Wallet
       </Text>
       <Text>User Register</Text>
+      {authFailedMsg && (
+        <View
+          style={{
+            backgroundColor: "red",
+            width: "100%",
+            alignItems: "center",
+            padding: 5,
+            marginTop: 5,
+            borderRadius: 5,
+          }}
+        >
+          <Text style={{ color: "#fff" }}>{authFailedMsg}</Text>
+        </View>
+      )}
       <View style={{ width: "100%", gap: 10, paddingVertical: 10 }}>
         <TextInput
           style={styles.input}
           placeholder="Email"
-          onChangeText={setEmail}
-          value={email}
+          onChangeText={setUserEmail}
+          value={userEmail}
         />
 
         <TextInput
