@@ -31,7 +31,7 @@ const AllAccountsStack = () => {
       />
       <Stack.Screen
         options={({ route }) => ({
-          title: `Details`,
+          title: `${route.params.account.name} Details`,
           headerStyle: {
             backgroundColor: "#287EFC",
           },

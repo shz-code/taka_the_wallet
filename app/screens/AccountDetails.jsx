@@ -2,7 +2,8 @@ import { Text, View } from "react-native";
 import Icon from "../components/ui/Icon";
 import styles from "../styles/styles";
 
-const AccountDetails = () => {
+const AccountDetails = ({ route }) => {
+  const { amount, name, created, category } = route.params.account;
   return (
     <View style={styles.container}>
       <View
@@ -18,17 +19,21 @@ const AccountDetails = () => {
           </View>
           <View>
             <Text style={{ fontSize: 16, fontWeight: 600, paddingBottom: 5 }}>
-              Name Is
+              {name}{" "}
+              <Text style={{ fontSize: 12, fontWeight: 400 }}>
+                {" "}
+                - {category}
+              </Text>
             </Text>
           </View>
         </View>
         <View>
-          <Text style={{ fontSize: 20, fontWeight: 600 }}>500 ৳</Text>
+          <Text style={{ fontSize: 20, fontWeight: 600 }}>{amount} ৳</Text>
         </View>
       </View>
       <View>
         <Text>
-          Creation Date: <Text>{new Date().toLocaleDateString()}</Text>
+          Creation Date: <Text>{new Date(created).toLocaleDateString()}</Text>
         </Text>
       </View>
       {/* Transactions  */}

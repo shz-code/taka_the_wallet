@@ -7,8 +7,6 @@ import styles from "../styles/styles";
 const AllAccounts = ({ navigation }) => {
   const { data, isLoading, isError, error } = useGetAccountsQuery();
 
-  console.log(data);
-
   let content = null;
   let errorText = null;
   if (isLoading) content = <Text>Loading...</Text>;
@@ -17,7 +15,7 @@ const AllAccounts = ({ navigation }) => {
     errorText = <Text>Nothing Found</Text>;
   else if (!isLoading && !isError && data)
     content = data.map((item, index) => (
-      <AccountCard key={index} account={item} />
+      <AccountCard key={index} account={item} navigation={navigation} />
     ));
   return (
     <>

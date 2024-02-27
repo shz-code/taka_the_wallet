@@ -2,14 +2,16 @@ import { Pressable, Text, View } from "react-native";
 import styles from "../styles/styles";
 import Icon from "./ui/Icon";
 
-const AccountCard = ({ account }) => {
+const AccountCard = ({ account, navigation }) => {
   const { amount, category, created, name } = account;
   return (
     <Pressable
       style={{
         ...styles.accountCardMain,
       }}
-      onPress={() => navigation.navigate("AccountDetails")}
+      onPress={() =>
+        navigation.navigate("AccountDetails", { account: account })
+      }
     >
       <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
         <View style={styles.iconContainer}>

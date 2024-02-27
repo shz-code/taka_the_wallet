@@ -21,8 +21,6 @@ const NewAccount = ({ navigation }) => {
   const { data } = useGetAccountsQuery();
   const [addAccount] = useAddAccountMutation();
 
-  // console.log(data);
-
   const handleSubmit = async () => {
     setErr("");
     setSuccess("");
