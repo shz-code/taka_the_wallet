@@ -1,9 +1,70 @@
-import { Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { FlatList, Text, View } from "react-native";
 import Icon from "../components/ui/Icon";
+import { useGetTransactionsQuery } from "../features/transactions/transactionsApi";
 import styles from "../styles/styles";
 
 const AccountDetails = ({ route }) => {
   const { amount, name, created, category } = route.params.account;
+  const [trans, setTrans] = useState([]);
+  const { data, isLoading, isError } = useGetTransactionsQuery();
+
+  useEffect(() => {
+    if (!isError && !isLoading) {
+      data.map((item) => {
+        if (item.accountName === name && item.accountCategory === category) {
+          setTrans((prev) => [...prev, item]);
+        }
+      });
+    }
+  }, [isLoading, isError, data]);
+
+  let content = null;
+  let errorText = null;
+  if (isLoading) content = <Text>Loading...</Text>;
+  else if (!isLoading && isError) errorText = <Text>{error.data}</Text>;
+  else if (!isLoading && !isError && !data)
+    errorText = <Text>Nothing Found</Text>;
+  else if (!isLoading && !isError && data)
+    content = (
+      <FlatList
+        data={trans}
+        renderItem={(item) => (
+          <View style={styles.transactionItem}>
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
+            >
+              <View style={styles.iconBox}>
+                <Icon name="cart-outline" />
+              </View>
+              <View>
+                <Text style={{ fontWeight: "500", fontSize: 18 }}>
+                  {item.item.title}
+                </Text>
+                <Text style={{ marginTop: 5 }}>
+                  {new Date(item.item.created).toLocaleString()}
+                </Text>
+              </View>
+            </View>
+            <View style={{ alignItems: "flex-end" }}>
+              <Text style={{ fontWeight: "500", fontSize: 18 }}>
+                {item.item.option === "Withdraw" && "-"}
+                {item.item.amount} ৳
+              </Text>
+              <Text style={{ marginTop: 5 }}>
+                {item.item.desc.length > 5
+                  ? `${item.item.desc.slice(0, 5)}...`
+                  : item.item.desc}
+              </Text>
+            </View>
+          </View>
+        )}
+        key={(item) => item}
+        maxToRenderPerBatch={2}
+        style={{ height: 360 }}
+      />
+    );
+
   return (
     <View style={styles.container}>
       <View
@@ -40,21 +101,7 @@ const AccountDetails = ({ route }) => {
       <View>
         <Text style={styles.subHeadingText}>Recent Transactions</Text>
         {/* Transaction Item */}
-        <View style={{ ...styles.transactionItem, marginTop: 10 }}>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-            <View style={styles.iconBox}>
-              <Icon name="cart-outline" />
-            </View>
-            <View>
-              <Text style={{ fontWeight: "500", fontSize: 18 }}>Netflix</Text>
-              <Text style={{ marginTop: 5 }}>20 hours ago</Text>
-            </View>
-          </View>
-          <View style={{ alignItems: "flex-end" }}>
-            <Text style={{ fontWeight: "500", fontSize: 18 }}>-300 ৳</Text>
-            <Text style={{ marginTop: 5 }}>Testing</Text>
-          </View>
-        </View>
+        {errorText ? errorText : content}
       </View>
     </View>
   );

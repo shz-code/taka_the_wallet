@@ -1,11 +1,21 @@
 import { FlatList, Text, View } from "react-native";
 
+import _ from "lodash";
+import { useEffect, useState } from "react";
 import { useGetTransactionsQuery } from "../../features/transactions/transactionsApi";
 import styles from "../../styles/styles";
 import Icon from "../ui/Icon";
 
 const Transactions = () => {
+  const [trans, setTrans] = useState([]);
   const { data, isLoading, isError } = useGetTransactionsQuery();
+
+  useEffect(() => {
+    if (!isLoading && !isError) {
+      let arr = _.cloneDeep(data);
+      setTrans(arr.reverse());
+    }
+  }, [isLoading, isError, data]);
 
   let content = null;
   let errorText = null;
@@ -16,7 +26,7 @@ const Transactions = () => {
   else if (!isLoading && !isError && data)
     content = (
       <FlatList
-        data={data}
+        data={trans}
         renderItem={(item) => (
           <View style={styles.transactionItem}>
             <View
@@ -39,7 +49,12 @@ const Transactions = () => {
                 {item.item.option === "Withdraw" && "-"}
                 {item.item.amount} ৳
               </Text>
-              <Text style={{ marginTop: 5 }}>Testing</Text>
+              <Text style={{ marginTop: 5 }}>
+                {" "}
+                {item.item.desc.length > 5
+                  ? `${item.item.desc.slice(0, 5)}...`
+                  : item.item.desc}
+              </Text>
             </View>
           </View>
         )}
