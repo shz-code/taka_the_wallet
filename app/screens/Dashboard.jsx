@@ -1,10 +1,20 @@
+import { useEffect, useState } from "react";
 import { Image, Pressable, Text, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 import Accounts from "../components/Dashboard/Accounts";
+import Transactions from "../components/Dashboard/Transactions";
 import Icon from "../components/ui/Icon";
+import { useGetAccountsQuery } from "../features/accounts/accountsApi";
 import styles from "../styles/styles";
 
 const Dashboard = ({ navigation }) => {
+  const { data, isLoading, isError } = useGetAccountsQuery();
+  const [balance, setBalance] = useState(0);
+  useEffect(() => {
+    if (!isError && !isLoading) {
+      const bal = data.reduce((a, b) => a + b.amount, 0);
+      setBalance(bal);
+    }
+  }, [isLoading, isError, data]);
   return (
     <View>
       <View style={{ position: "relative" }}>
@@ -36,7 +46,7 @@ const Dashboard = ({ navigation }) => {
         <View style={styles.heroBg}></View>
         <View style={styles.balance}>
           <Text style={{ color: "#fff", fontSize: 15 }}>Total Balance</Text>
-          <Text style={styles.headingText}>1500.00 ৳</Text>
+          <Text style={styles.headingText}>{balance} ৳</Text>
           <View style={styles.heroActions}>
             <Pressable
               style={styles.iconContainer}
@@ -64,7 +74,7 @@ const Dashboard = ({ navigation }) => {
         </View>
       </View>
       {/* Body */}
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
         {/* All Accounts */}
         <View>
           <Text style={styles.subHeadingText}>Your Accounts</Text>
@@ -89,30 +99,9 @@ const Dashboard = ({ navigation }) => {
         <View>
           <Text style={styles.subHeadingText}>Recent Transactions</Text>
           {/* Transactions Container */}
-          <View>
-            {/* Transaction Item */}
-            <View style={styles.transactionItem}>
-              <View
-                style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
-              >
-                <View style={styles.iconBox}>
-                  <Icon name="cart-outline" />
-                </View>
-                <View>
-                  <Text style={{ fontWeight: "500", fontSize: 18 }}>
-                    Netflix
-                  </Text>
-                  <Text style={{ marginTop: 5 }}>20 hours ago</Text>
-                </View>
-              </View>
-              <View style={{ alignItems: "flex-end" }}>
-                <Text style={{ fontWeight: "500", fontSize: 18 }}>-300 ৳</Text>
-                <Text style={{ marginTop: 5 }}>Testing</Text>
-              </View>
-            </View>
-          </View>
+          <Transactions />
         </View>
-      </ScrollView>
+      </View>
       {/* Action Button */}
       <View
         style={{
@@ -124,7 +113,7 @@ const Dashboard = ({ navigation }) => {
         }}
       >
         <Pressable
-          style={styles.iconContainer}
+          style={{ ...styles.iconContainer, opacity: 0.5 }}
           onPress={() =>
             navigation.navigate("ModifyFunds", { action: "Deposit" })
           }
