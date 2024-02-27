@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CustomDrawerContent from "./components/Drawer/CustomDrawerContent";
 import Icon from "./components/ui/Icon";
-import { userLoggedIn } from "./features/auth/authSlice";
+import { userLoggedIn, userLoggedOut } from "./features/auth/authSlice";
 import AccountDetails from "./screens/AccountDetails";
 import AllAccounts from "./screens/AllAccounts";
 import Dashboard from "./screens/Dashboard";
@@ -129,9 +129,13 @@ const AppNavigator = () => {
         let storage = await AsyncStorage.getItem("auth");
         if (storage) {
           storage = JSON.parse(storage);
-          dispatch(
-            userLoggedIn({ email: storage.email, localId: storage.userId })
-          );
+          if (new Date(storage.expiresIn) > new Date()) {
+            dispatch(
+              userLoggedIn({ email: storage.email, localId: storage.userId })
+            );
+          } else {
+            dispatch(userLoggedOut());
+          }
         }
       } catch (err) {
         console.log(err);

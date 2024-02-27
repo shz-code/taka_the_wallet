@@ -36,7 +36,6 @@ const NewAccount = ({ navigation }) => {
       let newArr = [];
       if (data) newArr = data.concat(body);
       else newArr = newArr.concat(body);
-      console.log(JSON.stringify(newArr));
       const res = await addAccount(newArr);
       setSuccess("Created Successfully");
     } else {
