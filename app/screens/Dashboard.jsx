@@ -1,5 +1,6 @@
 import { Image, Pressable, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import Accounts from "../components/Dashboard/Accounts";
 import Icon from "../components/ui/Icon";
 import styles from "../styles/styles";
 
@@ -81,16 +82,7 @@ const Dashboard = ({ navigation }) => {
               <Text>Add</Text>
             </Pressable>
             {/* Accounts */}
-            <ScrollView horizontal={false}>
-              <View style={{ flexDirection: "row", gap: 10 }}>
-                <View style={styles.iconContainer}>
-                  <View style={styles.iconBox}>
-                    <Icon name="wallet-outline" />
-                  </View>
-                  <Text>BKash</Text>
-                </View>
-              </View>
-            </ScrollView>
+            <Accounts />
           </View>
         </View>
         {/* Transactions */}
