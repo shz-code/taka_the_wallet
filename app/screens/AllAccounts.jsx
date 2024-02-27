@@ -1,8 +1,12 @@
 import { Pressable, Text, View } from "react-native";
 import Icon from "../components/ui/Icon";
+import { useGetAccountsQuery } from "../features/accounts/accountsApi";
 import styles from "../styles/styles";
 
 const AllAccounts = ({ navigation }) => {
+  const { data } = useGetAccountsQuery();
+
+  // console.log(data);
   return (
     <>
       <View style={styles.customHeader}>

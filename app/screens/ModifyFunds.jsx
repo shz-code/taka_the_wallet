@@ -15,9 +15,8 @@ const ModifyFunds = () => {
       <View style={{ flexDirection: "row", gap: 10 }}>
         {/* Types */}
         {type.map((item) => (
-          <Pressable onPress={() => alert(item)}>
+          <Pressable key={item} onPress={() => alert(item)}>
             <Text
-              key={item}
               style={{
                 ...styles.fundTypeButton,
                 ...styles.fundTypeButtonSelected,

@@ -83,20 +83,12 @@ const Dashboard = ({ navigation }) => {
             {/* Accounts */}
             <ScrollView horizontal={false}>
               <View style={{ flexDirection: "row", gap: 10 }}>
-                <Pressable
-                  style={styles.iconContainer}
-                  onPress={() =>
-                    navigation.navigate("AllAccountsStack", {
-                      screen: "AccountDetails",
-                      item: "123",
-                    })
-                  }
-                >
+                <View style={styles.iconContainer}>
                   <View style={styles.iconBox}>
                     <Icon name="wallet-outline" />
                   </View>
                   <Text>BKash</Text>
-                </Pressable>
+                </View>
               </View>
             </ScrollView>
           </View>
