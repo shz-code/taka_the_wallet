@@ -1,36 +1,160 @@
 import { useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import Icon from "../components/ui/Icon";
+import { useGetAccountsQuery } from "../features/accounts/accountsApi";
 import styles from "../styles/styles";
 
-const ModifyFunds = () => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedValue, setSelectedValue] = useState("");
+const options = ["Deposit", "Withdraw"];
 
-  const options = ["Option 1", "Option 2", "Option 3"];
-  const type = ["Deposit", "Option 2", "Option 3"];
+const Option = ({ option, selectedOption, setSelectedOption }) => {
+  return (
+    <Pressable onPress={() => setSelectedOption(option)}>
+      {selectedOption === option ? (
+        <Text
+          style={{
+            ...styles.fundTypeButton,
+            ...styles.fundTypeButtonSelected,
+          }}
+        >
+          {option}
+        </Text>
+      ) : (
+        <Text
+          style={{
+            ...styles.fundTypeButton,
+          }}
+        >
+          {option}
+        </Text>
+      )}
+    </Pressable>
+  );
+};
+
+const Account = ({ account, selectedAccount, setSelectedAccount }) => {
+  return (
+    <Pressable
+      style={
+        selectedAccount.name === account.name
+          ? { ...styles.accountCard, ...styles.accountCardSelected }
+          : styles.accountCard
+      }
+      onPress={() =>
+        setSelectedAccount({ name: account.name, category: account.category })
+      }
+      android_ripple={{ color: "F4FAFF" }}
+    >
+      <View
+        style={{
+          flexDirection: "row",
+          gap: 10,
+          alignItems: "center",
+        }}
+      >
+        <View style={styles.iconContainer}>
+          <View
+            style={{
+              ...styles.iconBox,
+              backgroundColor: "#287EFC",
+            }}
+          >
+            <Icon name="card-outline" color="#fff" />
+          </View>
+        </View>
+      </View>
+      <View style={{ alignItems: "flex-end" }}>
+        <Text>{account.name}</Text>
+        <Text>{account.amount} ৳</Text>
+      </View>
+    </Pressable>
+  );
+};
+
+const ModifyFunds = ({ route, navigation }) => {
+  const action = route.params.action;
+  const [selectedOption, setSelectedOption] = useState(action);
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
+  const [amount, setAmount] = useState(null);
+  const [selectedAccount, setSelectedAccount] = useState({
+    name: "",
+    category: "",
+  });
+  const [err, setErr] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const { data, isLoading, isError } = useGetAccountsQuery();
+
+  const handleSubmit = async () => {
+    setErr("");
+    setSuccess("");
+    if (title && desc && amount && selectedAccount.name) {
+      const body = {
+        title: title,
+        desc: desc,
+        amount: amount,
+        option: selectedAccount,
+        account: selectedAccount,
+        created: new Date().getTime(),
+      };
+      let newArr = [];
+      // if (data) newArr = data.concat(body);
+      // else newArr = newArr.concat(body);
+      // const res = await addAccount(newArr);
+      console.log(body);
+      setSuccess("Created Successfully");
+    } else {
+      setErr("Fill up all the fields");
+    }
+  };
 
   return (
     <View style={styles.container}>
+      {(err || success) && (
+        <View
+          style={{
+            backgroundColor: err ? "red" : "green",
+            width: "100%",
+            alignItems: "center",
+            padding: 5,
+            marginTop: 5,
+            borderRadius: 5,
+          }}
+        >
+          <Text style={{ color: "#fff" }}>{err ? err : success}</Text>
+        </View>
+      )}
       <View style={{ flexDirection: "row", gap: 10 }}>
         {/* Types */}
-        {type.map((item) => (
-          <Pressable key={item} onPress={() => alert(item)}>
-            <Text
-              style={{
-                ...styles.fundTypeButton,
-                ...styles.fundTypeButtonSelected,
-              }}
-            >
-              {item}
-            </Text>
-          </Pressable>
+        {options.map((item) => (
+          <Option
+            key={item}
+            option={item}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+          />
         ))}
       </View>
       <View style={{ gap: 10 }}>
-        <TextInput style={styles.input} placeholder="Enter Fund Title" />
-        <TextInput style={styles.input} placeholder="Enter Fund Description" />
-        <TextInput style={styles.input} placeholder="Enter Amount" />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter Fund Title"
+          value={title}
+          onChangeText={setTitle}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter Fund Description"
+          value={desc}
+          onChangeText={setDesc}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter Amount"
+          value={amount}
+          onChangeText={setAmount}
+          keyboardType="decimal-pad"
+        />
       </View>
       <View style={{ alignSelf: "center", marginTop: 10 }}>
         <Text>{new Date().toLocaleString()}</Text>
@@ -38,65 +162,37 @@ const ModifyFunds = () => {
       <View>
         <Text style={styles.subHeadingText}>Select Account</Text>
         <ScrollView horizontal={true}>
+          {/* Create New */}
+          {/* Card item */}
           <View style={{ flexDirection: "row", gap: 10, paddingVertical: 20 }}>
-            {/* Cart item */}
-            <View style={{ ...styles.accountCard }}>
-              <View
-                style={{ flexDirection: "row", gap: 10, alignItems: "center" }}
-              >
-                <View style={styles.iconContainer}>
-                  <View
-                    style={{ ...styles.iconBox, backgroundColor: "#287EFC" }}
-                  >
-                    <Icon name="card-outline" color="#fff" />
-                  </View>
-                </View>
-              </View>
-              <View style={{ alignItems: "flex-end" }}>
-                <Text>Name Is</Text>
-                <Text>300 T</Text>
-              </View>
-            </View>
-            {/* Cart item */}
-            <View
-              style={{ ...styles.accountCard, ...styles.accountCardSelected }}
+            <Pressable
+              style={{ ...styles.accountCard }}
+              onPress={() =>
+                navigation.navigate("ManageAccounts", {
+                  screen: "NewAccount",
+                })
+              }
             >
-              <View
-                style={{ flexDirection: "row", gap: 10, alignItems: "center" }}
-              >
-                <View style={styles.iconContainer}>
-                  <View
-                    style={{ ...styles.iconBox, backgroundColor: "#287EFC" }}
-                  >
-                    <Icon name="card-outline" color="#fff" />
-                  </View>
+              <View style={styles.iconContainer}>
+                <View style={{ ...styles.iconBox, backgroundColor: "#287EFC" }}>
+                  <Icon name="add" color="#fff" />
                 </View>
               </View>
               <View style={{ alignItems: "flex-end" }}>
-                <Text>Name Is</Text>
-                <Text>300 T</Text>
+                <Text>Create New</Text>
               </View>
-            </View>
-            {/* Cart item */}
-            <View
-              style={{ ...styles.accountCard, ...styles.accountCardSelected }}
-            >
-              <View
-                style={{ flexDirection: "row", gap: 10, alignItems: "center" }}
-              >
-                <View style={styles.iconContainer}>
-                  <View
-                    style={{ ...styles.iconBox, backgroundColor: "#287EFC" }}
-                  >
-                    <Icon name="card-outline" color="#fff" />
-                  </View>
-                </View>
-              </View>
-              <View style={{ alignItems: "flex-end" }}>
-                <Text>Name Is</Text>
-                <Text>300 T</Text>
-              </View>
-            </View>
+            </Pressable>
+            {/* Other Accounts */}
+            {!isLoading &&
+              !isError &&
+              data?.map((item, index) => (
+                <Account
+                  key={index}
+                  account={item}
+                  selectedAccount={selectedAccount}
+                  setSelectedAccount={setSelectedAccount}
+                />
+              ))}
           </View>
         </ScrollView>
       </View>
@@ -108,7 +204,7 @@ const ModifyFunds = () => {
           width: "100%",
         }}
       >
-        <Pressable style={styles.button} onPress={() => alert("submit")}>
+        <Pressable style={styles.button} onPress={handleSubmit}>
           <Text style={{ fontSize: 20, fontWeight: "bold", color: "#fff" }}>
             Submit
           </Text>

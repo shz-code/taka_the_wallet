@@ -1,4 +1,5 @@
 import { Text, View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import AccountCard from "../components/AccountCard";
 import Icon from "../components/ui/Icon";
 import { useGetAccountsQuery } from "../features/accounts/accountsApi";
@@ -14,9 +15,15 @@ const AllAccounts = ({ navigation }) => {
   else if (!isLoading && !isError && !data)
     errorText = <Text>Nothing Found</Text>;
   else if (!isLoading && !isError && data)
-    content = data.map((item, index) => (
-      <AccountCard key={index} account={item} navigation={navigation} />
-    ));
+    content = (
+      <FlatList
+        data={data}
+        renderItem={(item) => (
+          <AccountCard account={item} navigation={navigation} />
+        )}
+        key={(item) => item}
+      />
+    );
   return (
     <>
       <View style={styles.customHeader}>
@@ -43,10 +50,7 @@ const AllAccounts = ({ navigation }) => {
             <Text style={{ color: "#fff" }}>{errorText}</Text>
           </View>
         )}
-        <View style={{ gap: 10 }}>
-          {/* item */}
-          {content}
-        </View>
+        <View>{content}</View>
       </View>
     </>
   );

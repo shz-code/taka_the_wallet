@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F4FAFF",
     borderRadius: 5,
     padding: 10,
+    marginBottom: 10,
   },
   accountCard: {
     flexDirection: "row",

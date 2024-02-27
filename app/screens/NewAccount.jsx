@@ -66,21 +66,20 @@ const NewAccount = ({ navigation }) => {
         </Text>
       </View>
       <View style={styles.container}>
-        {err ||
-          (success && (
-            <View
-              style={{
-                backgroundColor: err ? "red" : "green",
-                width: "100%",
-                alignItems: "center",
-                padding: 5,
-                marginTop: 5,
-                borderRadius: 5,
-              }}
-            >
-              <Text style={{ color: "#fff" }}>{err ? err : success}</Text>
-            </View>
-          ))}
+        {(err || success) && (
+          <View
+            style={{
+              backgroundColor: err ? "red" : "green",
+              width: "100%",
+              alignItems: "center",
+              padding: 5,
+              marginTop: 5,
+              borderRadius: 5,
+            }}
+          >
+            <Text style={{ color: "#fff" }}>{err ? err : success}</Text>
+          </View>
+        )}
         <Text style={styles.subHeadingText}>Create New Account</Text>
         {/* Input */}
         <View style={{ gap: 10 }}>

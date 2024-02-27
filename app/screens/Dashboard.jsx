@@ -41,7 +41,7 @@ const Dashboard = ({ navigation }) => {
             <Pressable
               style={styles.iconContainer}
               onPress={() =>
-                navigation.navigate("ModifyFunds", { action: "Add" })
+                navigation.navigate("ModifyFunds", { action: "Deposit" })
               }
             >
               <View style={styles.iconBox}>
@@ -125,7 +125,9 @@ const Dashboard = ({ navigation }) => {
       >
         <Pressable
           style={styles.iconContainer}
-          onPress={() => navigation.navigate("ModifyFunds", { action: "Add" })}
+          onPress={() =>
+            navigation.navigate("ModifyFunds", { action: "Deposit" })
+          }
         >
           <View
             style={{

@@ -3,14 +3,14 @@ import styles from "../styles/styles";
 import Icon from "./ui/Icon";
 
 const AccountCard = ({ account, navigation }) => {
-  const { amount, category, created, name } = account;
+  const { amount, category, created, name } = account.item;
   return (
     <Pressable
       style={{
         ...styles.accountCardMain,
       }}
       onPress={() =>
-        navigation.navigate("AccountDetails", { account: account })
+        navigation.navigate("AccountDetails", { account: account.item })
       }
     >
       <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
