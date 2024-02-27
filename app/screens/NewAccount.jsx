@@ -16,6 +16,7 @@ const NewAccount = ({ navigation }) => {
   const [category, setCategory] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [err, setErr] = useState("");
+  const [success, setSuccess] = useState("");
 
   const { data } = useGetAccountsQuery();
   const [addAccount] = useAddAccountMutation();
@@ -24,6 +25,7 @@ const NewAccount = ({ navigation }) => {
 
   const handleSubmit = async () => {
     setErr("");
+    setSuccess("");
     setIsLoading(true);
     if (name && category) {
       const body = {
@@ -33,10 +35,12 @@ const NewAccount = ({ navigation }) => {
         amount: 0,
         transactions: [],
       };
-      const newArr = data.concat(body);
+      let newArr = [];
+      if (data) newArr = data.concat(body);
+      else newArr = newArr.concat(body);
       console.log(JSON.stringify(newArr));
       const res = await addAccount(newArr);
-      // console.log(res);
+      setSuccess("Created Successfully");
     } else {
       setErr("Fill up all the fields");
     }
@@ -65,20 +69,21 @@ const NewAccount = ({ navigation }) => {
         </Text>
       </View>
       <View style={styles.container}>
-        {err && (
-          <View
-            style={{
-              backgroundColor: "red",
-              width: "100%",
-              alignItems: "center",
-              padding: 5,
-              marginTop: 5,
-              borderRadius: 5,
-            }}
-          >
-            <Text style={{ color: "#fff" }}>{err}</Text>
-          </View>
-        )}
+        {err ||
+          (success && (
+            <View
+              style={{
+                backgroundColor: err ? "red" : "green",
+                width: "100%",
+                alignItems: "center",
+                padding: 5,
+                marginTop: 5,
+                borderRadius: 5,
+              }}
+            >
+              <Text style={{ color: "#fff" }}>{err ? err : success}</Text>
+            </View>
+          ))}
         <Text style={styles.subHeadingText}>Create New Account</Text>
         {/* Input */}
         <View style={{ gap: 10 }}>

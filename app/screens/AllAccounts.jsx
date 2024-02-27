@@ -1,12 +1,24 @@
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import AccountCard from "../components/AccountCard";
 import Icon from "../components/ui/Icon";
 import { useGetAccountsQuery } from "../features/accounts/accountsApi";
 import styles from "../styles/styles";
 
 const AllAccounts = ({ navigation }) => {
-  const { data } = useGetAccountsQuery();
+  const { data, isLoading, isError, error } = useGetAccountsQuery();
 
-  // console.log(data);
+  console.log(data);
+
+  let content = null;
+  let errorText = null;
+  if (isLoading) content = <Text>Loading...</Text>;
+  else if (!isLoading && isError) errorText = <Text>{error.data}</Text>;
+  else if (!isLoading && !isError && !data)
+    errorText = <Text>Nothing Found</Text>;
+  else if (!isLoading && !isError && data)
+    content = data.map((item, index) => (
+      <AccountCard key={index} account={item} />
+    ));
   return (
     <>
       <View style={styles.customHeader}>
@@ -19,35 +31,23 @@ const AllAccounts = ({ navigation }) => {
         <Text style={styles.customHeaderTitle}>Accounts</Text>
       </View>
       <View style={styles.container}>
+        {errorText && (
+          <View
+            style={{
+              backgroundColor: "red",
+              width: "100%",
+              alignItems: "center",
+              padding: 5,
+              marginTop: 5,
+              borderRadius: 5,
+            }}
+          >
+            <Text style={{ color: "#fff" }}>{errorText}</Text>
+          </View>
+        )}
         <View style={{ gap: 10 }}>
           {/* item */}
-          <Pressable
-            style={{
-              ...styles.accountCardMain,
-            }}
-            onPress={() => navigation.navigate("AccountDetails")}
-          >
-            <View
-              style={{ flexDirection: "row", gap: 10, alignItems: "center" }}
-            >
-              <View style={styles.iconContainer}>
-                <View style={{ ...styles.iconBox, backgroundColor: "#287EFC" }}>
-                  <Icon name="card-outline" color="#fff" />
-                </View>
-              </View>
-              <View>
-                <Text
-                  style={{ fontSize: 16, fontWeight: 600, paddingBottom: 5 }}
-                >
-                  Name Is
-                </Text>
-                <Text>{new Date().toLocaleDateString()}</Text>
-              </View>
-            </View>
-            <View>
-              <Text style={{ fontSize: 20, fontWeight: 600 }}>500 ৳</Text>
-            </View>
-          </Pressable>
+          {content}
         </View>
       </View>
     </>
