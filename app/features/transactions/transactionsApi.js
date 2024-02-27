@@ -1,16 +1,13 @@
 import apiSlice from "../api/apiSlice";
 
-const accountsApi = apiSlice.injectEndpoints({
+const transactionsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getAccounts: builder.query({
-      query: () => "accounts.json",
+    getTransactions: builder.query({
+      query: () => "transactions.json",
     }),
-    getAccount: builder.query({
-      query: () => "accounts.json",
-    }),
-    addAccount: builder.mutation({
+    addTransaction: builder.mutation({
       query: (body) => ({
-        url: "accounts.json",
+        url: "transactions.json",
         method: "PUT",
         body: body,
       }),
@@ -18,7 +15,7 @@ const accountsApi = apiSlice.injectEndpoints({
         try {
           const res = await queryFulfilled;
           dispatch(
-            apiSlice.util.updateQueryData("getAccounts", undefined, () => {
+            apiSlice.util.updateQueryData("getTransactions", undefined, () => {
               return res.data;
             })
           );
@@ -30,8 +27,5 @@ const accountsApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const {
-  useGetAccountsQuery,
-  useGetAccountQuery,
-  useAddAccountMutation,
-} = accountsApi;
+export const { useGetTransactionsQuery, useAddTransactionMutation } =
+  transactionsApi;

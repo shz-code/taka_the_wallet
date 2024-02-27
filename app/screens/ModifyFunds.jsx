@@ -1,7 +1,15 @@
+import _ from "lodash";
 import { useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import Icon from "../components/ui/Icon";
-import { useGetAccountsQuery } from "../features/accounts/accountsApi";
+import {
+  useAddAccountMutation,
+  useGetAccountsQuery,
+} from "../features/accounts/accountsApi";
+import {
+  useAddTransactionMutation,
+  useGetTransactionsQuery,
+} from "../features/transactions/transactionsApi";
 import styles from "../styles/styles";
 
 const options = ["Deposit", "Withdraw"];
@@ -40,7 +48,11 @@ const Account = ({ account, selectedAccount, setSelectedAccount }) => {
           : styles.accountCard
       }
       onPress={() =>
-        setSelectedAccount({ name: account.name, category: account.category })
+        setSelectedAccount({
+          name: account.name,
+          category: account.category,
+          amount: account.amount,
+        })
       }
       android_ripple={{ color: "F4FAFF" }}
     >
@@ -79,30 +91,75 @@ const ModifyFunds = ({ route, navigation }) => {
   const [selectedAccount, setSelectedAccount] = useState({
     name: "",
     category: "",
+    amount: 0,
   });
   const [err, setErr] = useState("");
   const [success, setSuccess] = useState("");
 
   const { data, isLoading, isError } = useGetAccountsQuery();
+  const [addAccount] = useAddAccountMutation();
+
+  // Get All Transactions
+  const {
+    data: transactions,
+    isLoading: transactionLoading,
+    isError: transactionError,
+  } = useGetTransactionsQuery();
+  const [addTransaction, { isLoading: isSubmitting }] =
+    useAddTransactionMutation();
 
   const handleSubmit = async () => {
     setErr("");
     setSuccess("");
     if (title && desc && amount && selectedAccount.name) {
-      const body = {
-        title: title,
-        desc: desc,
-        amount: amount,
-        option: selectedAccount,
-        account: selectedAccount,
-        created: new Date().getTime(),
-      };
-      let newArr = [];
-      // if (data) newArr = data.concat(body);
-      // else newArr = newArr.concat(body);
-      // const res = await addAccount(newArr);
-      console.log(body);
-      setSuccess("Created Successfully");
+      if (
+        selectedOption === "Withdraw" &&
+        Number(selectedAccount.amount) < Number(amount)
+      ) {
+        setErr("Account has not enough balance");
+      } else {
+        const body = {
+          title: title,
+          desc: desc,
+          amount: Number(amount),
+          option: selectedOption,
+          accountName: selectedAccount.name,
+          accountCategory: selectedAccount.category,
+          created: new Date().getTime(),
+        };
+        let newArr = [];
+        if (transactions) newArr = transactions.concat(body);
+        else newArr = newArr.concat(body);
+
+        // Update Account Details with new amount
+        let clonedArr = _.cloneDeep(data);
+        let newAccounts = [];
+        if (selectedOption === "Withdraw") {
+          newAccounts = clonedArr.map((item) => {
+            if (
+              selectedAccount.name === item.name &&
+              selectedAccount.category === item.category
+            ) {
+              item.amount -= Number(amount);
+              return item;
+            } else return item;
+          });
+        } else {
+          newAccounts = clonedArr.map((item) => {
+            if (
+              selectedAccount.name === item.name &&
+              selectedAccount.category === item.category
+            ) {
+              item.amount += Number(amount);
+              return item;
+            } else return item;
+          });
+        }
+        await addTransaction(newArr);
+        await addAccount(newAccounts);
+        setSuccess("Created Successfully");
+        setTimeout(() => navigation.goBack(), 1000);
+      }
     } else {
       setErr("Fill up all the fields");
     }
@@ -204,11 +261,24 @@ const ModifyFunds = ({ route, navigation }) => {
           width: "100%",
         }}
       >
-        <Pressable style={styles.button} onPress={handleSubmit}>
-          <Text style={{ fontSize: 20, fontWeight: "bold", color: "#fff" }}>
-            Submit
-          </Text>
-        </Pressable>
+        {isSubmitting ? (
+          <View
+            style={{
+              ...styles.button,
+              backgroundColor: "#B1BDCF",
+            }}
+          >
+            <Text style={{ fontSize: 20, fontWeight: "bold", color: "#000" }}>
+              Submitting...
+            </Text>
+          </View>
+        ) : (
+          <Pressable style={styles.button} onPress={handleSubmit}>
+            <Text style={{ fontSize: 20, fontWeight: "bold", color: "#fff" }}>
+              Submit
+            </Text>
+          </Pressable>
+        )}
       </View>
     </View>
   );

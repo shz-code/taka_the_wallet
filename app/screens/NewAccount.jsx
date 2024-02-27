@@ -31,7 +31,6 @@ const NewAccount = ({ navigation }) => {
         category: category,
         created: new Date().getTime(),
         amount: 0,
-        transactions: [],
       };
       let newArr = [];
       if (data) newArr = data.concat(body);
