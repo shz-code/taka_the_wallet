@@ -12,7 +12,7 @@ const Transactions = () => {
   const { userId } = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (!isLoading && !isError) {
+    if (!isLoading && !isError && data?.length) {
       let arr = data.filter((item) => {
         if (item.userId === userId) return item;
       });

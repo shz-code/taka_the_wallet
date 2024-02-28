@@ -13,7 +13,7 @@ const Dashboard = ({ navigation }) => {
   const [balance, setBalance] = useState(0);
 
   useEffect(() => {
-    if (!isError && !isLoading) {
+    if (!isError && !isLoading && data?.length) {
       let bal = 0;
       data.map((item) => {
         if (item.userId === userId) bal += item.amount;
