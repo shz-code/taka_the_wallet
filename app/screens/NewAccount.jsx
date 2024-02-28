@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Icon from "../components/ui/Icon";
 import {
   useAddAccountMutation,
@@ -21,6 +21,8 @@ const NewAccount = ({ navigation }) => {
   const { data } = useGetAccountsQuery();
   const [addAccount] = useAddAccountMutation();
 
+  const { userId } = useSelector((state) => state.user);
+
   const handleSubmit = async () => {
     setErr("");
     setSuccess("");
@@ -31,6 +33,7 @@ const NewAccount = ({ navigation }) => {
         category: category,
         created: new Date().getTime(),
         amount: 0,
+        userId: userId,
       };
       let newArr = [];
       if (data) newArr = data.concat(body);

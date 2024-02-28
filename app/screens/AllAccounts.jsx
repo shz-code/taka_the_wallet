@@ -1,11 +1,13 @@
 import { Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
+import { useSelector } from "react-redux";
 import AccountCard from "../components/AccountCard";
 import Icon from "../components/ui/Icon";
 import { useGetAccountsQuery } from "../features/accounts/accountsApi";
 import styles from "../styles/styles";
 
 const AllAccounts = ({ navigation }) => {
+  const { userId } = useSelector((state) => state.user);
   const { data, isLoading, isError, error } = useGetAccountsQuery();
 
   let content = null;
@@ -18,9 +20,10 @@ const AllAccounts = ({ navigation }) => {
     content = (
       <FlatList
         data={data}
-        renderItem={(item) => (
-          <AccountCard account={item} navigation={navigation} />
-        )}
+        renderItem={(item) => {
+          if (item.item.userId === userId)
+            return <AccountCard account={item} navigation={navigation} />;
+        }}
         key={(item) => item}
       />
     );

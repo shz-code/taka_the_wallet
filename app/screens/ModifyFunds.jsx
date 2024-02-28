@@ -1,6 +1,7 @@
 import _ from "lodash";
 import { useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { useSelector } from "react-redux";
 import Icon from "../components/ui/Icon";
 import {
   useAddAccountMutation,
@@ -99,6 +100,8 @@ const ModifyFunds = ({ route, navigation }) => {
   const { data, isLoading, isError } = useGetAccountsQuery();
   const [addAccount] = useAddAccountMutation();
 
+  const { userId } = useSelector((state) => state.user);
+
   // Get All Transactions
   const {
     data: transactions,
@@ -126,6 +129,7 @@ const ModifyFunds = ({ route, navigation }) => {
           accountName: selectedAccount.name,
           accountCategory: selectedAccount.category,
           created: new Date().getTime(),
+          userId: userId,
         };
         let newArr = [];
         if (transactions) newArr = transactions.concat(body);
@@ -242,14 +246,17 @@ const ModifyFunds = ({ route, navigation }) => {
             {/* Other Accounts */}
             {!isLoading &&
               !isError &&
-              data?.map((item, index) => (
-                <Account
-                  key={index}
-                  account={item}
-                  selectedAccount={selectedAccount}
-                  setSelectedAccount={setSelectedAccount}
-                />
-              ))}
+              data?.map((item, index) => {
+                if (item.userId === userId)
+                  return (
+                    <Account
+                      key={index}
+                      account={item}
+                      selectedAccount={selectedAccount}
+                      setSelectedAccount={setSelectedAccount}
+                    />
+                  );
+              })}
           </View>
         </ScrollView>
       </View>

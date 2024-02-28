@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Image, Pressable, Text, View } from "react-native";
+import { useSelector } from "react-redux";
 import Accounts from "../components/Dashboard/Accounts";
 import Transactions from "../components/Dashboard/Transactions";
 import Icon from "../components/ui/Icon";
@@ -8,10 +9,15 @@ import styles from "../styles/styles";
 
 const Dashboard = ({ navigation }) => {
   const { data, isLoading, isError } = useGetAccountsQuery();
+  const { userId } = useSelector((state) => state.user);
   const [balance, setBalance] = useState(0);
+
   useEffect(() => {
     if (!isError && !isLoading) {
-      const bal = data.reduce((a, b) => a + b.amount, 0);
+      let bal = 0;
+      data.map((item) => {
+        if (item.userId === userId) bal += item.amount;
+      });
       setBalance(bal);
     }
   }, [isLoading, isError, data]);

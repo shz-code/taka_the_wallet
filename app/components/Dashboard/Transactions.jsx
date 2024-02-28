@@ -1,7 +1,7 @@
 import { FlatList, Text, View } from "react-native";
 
-import _ from "lodash";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useGetTransactionsQuery } from "../../features/transactions/transactionsApi";
 import styles from "../../styles/styles";
 import Icon from "../ui/Icon";
@@ -9,10 +9,13 @@ import Icon from "../ui/Icon";
 const Transactions = () => {
   const [trans, setTrans] = useState([]);
   const { data, isLoading, isError } = useGetTransactionsQuery();
+  const { userId } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (!isLoading && !isError) {
-      let arr = _.cloneDeep(data);
+      let arr = data.filter((item) => {
+        if (item.userId === userId) return item;
+      });
       setTrans(arr.reverse());
     }
   }, [isLoading, isError, data]);
@@ -49,12 +52,7 @@ const Transactions = () => {
                 {item.item.option === "Withdraw" && "-"}
                 {item.item.amount} ৳
               </Text>
-              <Text style={{ marginTop: 5 }}>
-                {" "}
-                {item.item.desc.length > 5
-                  ? `${item.item.desc.slice(0, 5)}...`
-                  : item.item.desc}
-              </Text>
+              <Text style={{ marginTop: 5 }}>{item.item.accountName}</Text>
             </View>
           </View>
         )}
